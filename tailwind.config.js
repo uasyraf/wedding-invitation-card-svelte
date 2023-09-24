@@ -25,6 +25,7 @@ export default {
   plugins: [
 	skeleton({
 		themes: {
+			preset: ['vintage', 'wintry', 'sahara'],
 			custom: [
 				pinkPaletteCustomTheme
 			]
