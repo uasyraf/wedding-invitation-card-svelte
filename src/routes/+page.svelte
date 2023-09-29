@@ -1,43 +1,46 @@
 <script>
   import { getModalStore } from '@skeletonlabs/skeleton';
-  import ModalRsvpFormComponent from '../lib/components/modals/ModalRsvpFormComponent.svelte';
+  import {atcb_action} from 'add-to-calendar-button';
+  import ModalButtonsComponent from '../lib/components/modals/ModalRsvpFormComponent.svelte';
   const modalStore = getModalStore();
 
-  const modalRsvpFormComponent = {
+  const modalButtonsComponent = {
     // Pass a reference to your custom component
-    ref: ModalRsvpFormComponent,
+    ref: ModalButtonsComponent,
     // Add the component properties as key/value pairs
     props: { title: 'bg-red-500' },
     // Provide a template literal for the default component slot
     slot: '<p>Skeleton</p>'
   };
 
-  const rsvpModal = {
+  const buttonsModal = {
     type: 'component',
     // Pass the component directly:
-    component: modalRsvpFormComponent,
-    title: 'RSVP',
-    body: 'Please fill your information below:',
-    inputTitle1: 'Name',
-    inputTitle2: 'Contact number',
-    inputTitle3: 'Number of visitors',
-    inputTitle4: 'Email',
-    placeholder1: 'Ummar Asyraf',
-    placeholder2: '011-1234 5678',
-    placeholder3: '3',
-    placeholder4: 'ummarghani@gmail.com',
+    component: modalButtonsComponent,
+    disableAutoFocus: true,
   };
-            
-  function handleCalendarButtonClicked() {
-    console.log("Hello from calendar");
+  
+  const config = {
+    name: "Walimatulurus, Aiman & Nuryn",
+    description: "Alamat Majlis: Astana Kayangan Zemi, Persiaran S2F, Garden Home, 70300, Seremban Negeri Sembilan\nTarikh: 23 Disember 2023\nMasa: 8pm - 11pm",
+    startDate: "2023-12-23",
+    startTime: "20:00",
+    endTime: "23:00",
+    options: ["Google|Save to Google Calendar", "Apple|Save to Calendar"],
+    timeZone: "currentBrowser",
+  };
+
+  function handleCalendarButtonClicked(event) {
+    atcb_action(config, event.target);
   }
   
   function handleLocationButtonClicked() {
-    console.log("Hello from location");
+    modalStore.trigger(buttonsModal);
+    document.activeElement.blur();
   }
 
   function handleRsvpButtonClicked() {
-    modalStore.trigger(rsvpModal);
+    window.open("https://forms.gle/rVBNdMELCfBxMFw79", "_blank");
   }
 </script>
 
@@ -166,9 +169,10 @@
 #groom-and-bride {
   fill: black;
   stroke: #000; 
-  stroke-width: 2;
+  stroke-width: 0.8;
   stroke-dasharray: 1000; /* Length of the path */
   stroke-dashoffset: 1000; /* Hide the path initially */
+  stroke-opacity: 100%;
   animation: writePath 4s forwards linear; /* Adjust duration as needed */
   opacity: 10%;
 }
@@ -176,7 +180,8 @@
 @keyframes writePath {
   to {
     stroke-dashoffset: 0; /* Reveal the path completely */
-    opacity: 100%;
+    opacity: 80%;
+    stroke-width: 2;
   }
 }
 
@@ -193,8 +198,8 @@
   }
 }
 
-.wedding-card{
-  background-image: url('src/lib/images/background.png');
+.wedding-card {
+  background-image: url('$lib/images/background.png');
   background-repeat: no-repeat;
   background-size: cover;
   max-height: 90vh;
@@ -203,8 +208,7 @@
 
 #calendar-button:active,
 #rsvp-button:active,
-#location-button:active
- {
+#location-button:active {
   transform: translateY(4px);
 }
 
